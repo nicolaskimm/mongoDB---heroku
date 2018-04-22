@@ -1,0 +1,23 @@
+{
+  "name": "21_6",
+  "version": "1.0.0",
+  "description": "mongoDB database",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolaskimm/mongoDB---heroku.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicolaskimm/mongoDB---heroku/issues"
+  },
+  "homepage": "https://github.com/nicolaskimm/mongoDB---heroku#readme",
+  "dependencies": {
+    "mongoose": "^5.0.15"
+  }
+}
