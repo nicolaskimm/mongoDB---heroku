@@ -2,9 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://jkrezolek:kodilla@ds253959.mlab.com:53959/databaze', {
-    useMongoClient: true
-});
+mongoose.connect('mongodb://jkrezolek:kodilla@ds255319.mlab.com:55319/databaze');
 
 const userSchema = new Schema({
 	name: String,
@@ -16,19 +14,18 @@ const userSchema = new Schema({
 });
 
 userSchema.methods.manify = function(next) {
-    this.name = this.name + '-boy';
+	this.name = this.name + '-boy';
 
     return next(null, this.name);
 };
 
 userSchema.pre('save', function(next) {
-    const currentDate = new Date();
+	const currentDate = new Date();
 
     this.updated_at = currentDate;
 
-    if (!this.created_at) {
+	if (!this.created_at)
 		this.created_at = currentDate;
-	};
 
     next();
 });
@@ -36,18 +33,18 @@ userSchema.pre('save', function(next) {
 const User = mongoose.model('User', userSchema);
 
 const kenny = new User({
-    name: 'Kenny',
+	name: 'Kenny',
     username: 'Kenny_the_boy',
     password: 'password'
 });
 
 kenny.manify(function(err, name) {
-    if (err) throw err;
+	if (err) throw err;
     console.log('Twoje nowe imię to: ' + name);
 });
 
 const benny = new User({
-    name: 'Benny',
+	name: 'Benny',
     username: 'Benny_the_boy',
     password: 'password'
 });
@@ -69,28 +66,28 @@ mark.manify(function(err, name) {
 });
 
 const findAllUsers = function() {
-	return User.find({}, function(err, res) {
-        if (err) throw err;
+    return User.find({}, function(err, res) {
+		if (err) throw err;
         console.log('Actual database records are ' + res);
     });
-};
+}
 
 const findSpecificRecord = function() {
-	return User.find({ username: 'Kenny_the_boy' }, function(err, res) {
+    return User.find({ username: 'Kenny_the_boy' }, function(err, res) {
         if (err) throw err;
         console.log('Record you are looking for is ' + res);
-    });
-};
+    })
+}
 
 const updadeUserPassword = function() {
-	return User.findOne({ username: 'Kenny_the_boy' })
+    return User.findOne({ username: 'Kenny_the_boy' })
         .then(function(user) {
-            console.log('Old password is ' + user.password);
+			console.log('Old password is ' + user.password);
             console.log('Name ' + user.name);
             user.password = 'newPassword';
             console.log('New password is ' + user.password);
             return user.save(function(err) {
-                if (err) throw err;
+				if (err) throw err;
 
                 console.log('Uzytkownik ' + user.name + ' zostal pomyslnie zaktualizowany');
             })
@@ -98,7 +95,7 @@ const updadeUserPassword = function() {
 }
 
 const updateUsername = function() {
-	return User.findOneAndUpdate({ username: 'Benny_the_boy' }, { username: 'Benny_the_man' }, { new: true }, function(err, user) {
+    return User.findOneAndUpdate({ username: 'Benny_the_boy' }, { username: 'Benny_the_man' }, { new: true }, function(err, user) {
         if (err) throw err;
 
         console.log('Nazwa uzytkownika po aktualizacji to ' + user.username);
@@ -106,7 +103,7 @@ const updateUsername = function() {
 }
 
 const findMarkAndDelete = function() {
-	return User.findOne({ username: 'Mark_the_boy' })
+    return User.findOne({ username: 'Mark_the_boy' })
         .then(function(user) {
             return user.remove(function() {
                 console.log('User successfully deleted');
@@ -115,7 +112,7 @@ const findMarkAndDelete = function() {
 }
 
 const findKennyAndDelete = function() {
-	return User.findOne({ username: 'Kenny_the_boy' })
+    return User.findOne({ username: 'Kenny_the_boy' })
         .then(function(user) {
             return user.remove(function() {
                 console.log('User successfully deleted');
@@ -140,4 +137,4 @@ Promise.all([kenny.save(), mark.save(), benny.save()])
     .then(findMarkAndDelete)
     .then(findKennyAndDelete)
     .then(findBennyAndRemove)
-    .catch(console.log.bind(console))
+    .catch(console.log.bind(console));
