@@ -95,11 +95,17 @@ const updadeUserPassword = function() {
 }
 
 const updateUsername = function() {
-    return User.findOneAndUpdate({ username: 'Benny_the_boy' }, { username: 'Benny_the_man' }, { new: true }, function(err, user) {
-        if (err) throw err;
+	return User.findOne({ username: 'Benny_the_boy' })
+        .then(function(user) {
+			console.log('Old username is ' + user.username);
+            user.username = 'Benny_the_man';
+            console.log('New username is ' + user.username);
+            return user.save(function(err) {
+				if (err) throw err;
 
-        console.log('Nazwa uzytkownika po aktualizacji to ' + user.username);
-    })
+                console.log('Uzytkownik ' + user.username + ' zostal pomyslnie zaktualizowany');
+            })
+        })
 }
 
 const findMarkAndDelete = function() {
